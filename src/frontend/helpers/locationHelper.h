@@ -1,0 +1,60 @@
+/*
+Copyright 2021-2023 Stephane Cuillerdier (aka aiekick)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+#pragma once
+
+#include <ezlibs/ezXmlConfig.hpp>
+#include <ezlibs/ezClass.hpp>
+#include <ezlibs/ezSingleton.hpp>
+#include <string>
+
+enum class LanguageEnum
+{
+	FR = 0,
+	EN
+};
+
+class LocationHelper : public ez::xml::Config {
+    IMPLEMENT_SINGLETON(LocationHelper)
+    DISABLE_CONSTRUCTORS(LocationHelper)
+    DISABLE_DESTRUCTORS(LocationHelper)
+
+public:
+	static LanguageEnum s_HelpLanguage;
+
+public: // labels
+	static const char* layout_menu_name;
+	static const char* layout_menu_help;
+
+	static const char* mainframe_menubar_project;
+    static const char* mainframe_menubar_project_open;
+    static const char* mainframe_menubar_project_reload;
+    static const char* mainframe_menubar_project_close;
+	static const char* mainframe_menubar_settings;
+
+public:
+    bool init();
+    void unit();
+
+	void defineLanguage(LanguageEnum vLanguage, bool vForce = false);
+    float drawMenu();
+    ez::xml::Nodes getXmlNodes(const std::string& vUserDatas) override;
+    bool setFromXmlNodes(const ez::xml::Node& vNode, const ez::xml::Node& vParent, const std::string& vUserDatas) override;
+
+private:
+	void m_defineLanguageEN();
+	void m_defineLanguageFR();
+};
